@@ -10,6 +10,13 @@ use Illuminate\View\View;
 
 class RestaurantController extends Controller
 {
+
+    public function __construct()
+    {
+//        dd(00);
+//        $this->middleware('role:restaurant');
+    }
+
     /**
      * Display a listing of the resource.
      *
