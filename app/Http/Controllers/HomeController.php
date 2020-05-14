@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -19,10 +22,14 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return RedirectResponse|Redirector
      */
     public function index()
     {
-        return view('home');
+        if(Auth::user()->isRestaurant()){
+            return redirect('/restaurant');
+        }else{
+            return  redirect('/customer');
+        }
     }
 }

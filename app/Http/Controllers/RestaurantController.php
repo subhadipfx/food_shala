@@ -13,8 +13,7 @@ class RestaurantController extends Controller
 
     public function __construct()
     {
-//        dd(00);
-//        $this->middleware('role:restaurant');
+
     }
 
     /**

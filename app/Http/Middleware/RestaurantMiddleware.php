@@ -17,7 +17,7 @@ class RestaurantMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user() && !Auth::user()->hasRole('restaurant')){
+        if(Auth::user() && !Auth::user()->isRestaurant()){
             return redirect('home');
         }
         return $next($request);

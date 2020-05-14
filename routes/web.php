@@ -27,8 +27,6 @@ Route::prefix('/register')->group(function (){
     Route::get('/restaurant','Auth\RegisterController@createRestaurant');
     Route::post('/restaurant','Auth\RegisterController@storeRestaurant');
 });
-Route::get('/unauthorized',function (){
-    return response()->json('unauthorized');
-})->name('unauthorized');
+
 Route::resource('customer','CustomerController')->middleware('customer');
 Route::resource('restaurant','RestaurantController')->middleware('restaurant');

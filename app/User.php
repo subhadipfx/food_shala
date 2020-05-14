@@ -41,4 +41,10 @@ class User extends Authenticatable
     {
         return $this->role == $role;
     }
+    public function isRestaurant(){
+        return $this->role == 'restaurant';
+    }
+    public function isCustomer(){
+        return $this->role == 'customer';
+    }
 }

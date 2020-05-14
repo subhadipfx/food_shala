@@ -17,7 +17,7 @@ class CustomerMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::user() && !Auth::user()->hasRole('customer')){
+        if(Auth::user() && !Auth::user()->isCustomer()){
             return redirect('home');
         }
         return $next($request);
