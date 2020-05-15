@@ -37,14 +37,19 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function hasRole($role)
-    {
-        return $this->role == $role;
-    }
     public function isRestaurant(){
         return $this->role == 'restaurant';
     }
     public function isCustomer(){
         return $this->role == 'customer';
+    }
+
+    public function details(){
+        if($this->isCustomer()){
+            return $this->hasOne(Customer::class,'email','email')->first();
+        }else if($this->isRestaurant()){
+            return $this->hasOne(Restaurant::class,'email','email')->first();
+        }
+        return null;
     }
 }

@@ -30,3 +30,10 @@ Route::prefix('/register')->group(function (){
 
 Route::resource('customer','CustomerController')->middleware('customer');
 Route::resource('restaurant','RestaurantController')->middleware('restaurant');
+Route::resource('menu','MenuItemController',['except' => ['show', 'create']])->middleware('restaurant');
+Route::resource('order','OrdersController')->middleware('auth');
+
+
+//Route::fallback(function () {
+//    echo view('fallback');
+//});

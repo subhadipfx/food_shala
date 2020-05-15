@@ -6,6 +6,7 @@ use App\Restaurant;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class RestaurantController extends Controller
@@ -13,7 +14,6 @@ class RestaurantController extends Controller
 
     public function __construct()
     {
-
     }
 
     /**
@@ -23,7 +23,7 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        return view('restaurant.index');
+        return view('restaurant.index')->with('user',Auth::user()->details());
     }
 
 
@@ -42,11 +42,11 @@ class RestaurantController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Restaurant $restaurant
-     * @return Response
+     * @return Factory|View
      */
-    public function edit(Restaurant $restaurant)
+    public function edit()
     {
-        //
+        return view('restaurant.edit');
     }
 
     /**
