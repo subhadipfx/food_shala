@@ -15,8 +15,8 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('customer_id')->constrained();
-            $table->foreignId('restaurant_id')->constrained();
+            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
             $table->string('address');
             $table->double('total_amount');
             $table->string('status');
@@ -31,6 +31,7 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order');
+        Schema::dropIfExists('customers');
+        Schema::dropIfExists('restaurants');
     }
 }

@@ -12,4 +12,14 @@ class Orders extends Model
     {
         $this->hasMany(OrderedItem::class);
     }
+
+    public function OrderedFrom()
+    {
+        return $this->belongsTo(Restaurant::class);
+    }
+
+    public function OrderedBy()
+    {
+        return $this->belongsTo(Customer::class);
+    }
 }

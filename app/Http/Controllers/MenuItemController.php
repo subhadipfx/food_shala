@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\MenuItem;
+use App\Restaurant;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
@@ -23,7 +24,7 @@ class MenuItemController extends Controller
     private $validator;
     public function __construct()
     {
-        $this->validator = $validator = Validator::make(\request()->all(), [
+        $this->validator  = Validator::make(\request()->all(), [
             'name' => 'required|max:255',
             'category' => 'required',
             'vegetarian' => 'required|boolean',
@@ -34,8 +35,17 @@ class MenuItemController extends Controller
 
     public function index()
     {
-        $items = MenuItem::where('restaurant_id',Auth::user()->details()->id)->get();
-        return view('menu_item.index',compact('items'));
+        if(Auth::check() && Auth::user()->isRestaurant()){
+            return redirect('/menu/'.Auth::user()->details()->id);
+        }
+        if(Auth::check()){
+            $restaurants = Restaurant::where('city',Auth::user()->details()->city)->get();
+        }else{
+            session(['status-msg' => 'Login to get better user experience & customized restaurant']);
+            session(['status' => 'info']);
+            $restaurants = Restaurant::all();
+        }
+        return view('menu_item.index',compact('restaurants'));
     }
 
 
@@ -65,6 +75,26 @@ class MenuItemController extends Controller
         session(['status'=>'success']);
         session(['status-msg'=>'Item is added successfully']);
         return back();
+    }
+
+    public function show($id)
+    {
+        if(Auth::check() && Auth::user()->isRestaurant()){
+            if($id == Auth::user()->details()->id){
+                $items = MenuItem::where('restaurant_id',$id)->get();
+                return view('menu_item.show_restaurant',compact('items'));
+            }else{
+                return view('unauthorized');
+            }
+        }else{
+            if(Auth::check()){
+                $restaurants = Restaurant::where('city',Auth::user()->details()->city)->get();
+            }else{
+                $restaurants = Restaurant::all();
+            }
+            $items = MenuItem::where('restaurant_id',$id)->get();
+            return view('menu_item.show_customer',compact('items','restaurants'));
+        }
     }
 
     /**

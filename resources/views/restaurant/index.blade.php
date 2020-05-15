@@ -14,8 +14,8 @@
 {{--                        @endif--}}
                         <div class="text-center p-2">
                             <a  href="{{url("/order")}}" class="btn btn-primary" >Orders</a>
-                            <a href="{{url("/menu")}}" class="btn btn-info">Customize MENU</a>
-                            <a href="{{url('/restaurant/5/edit')}}" class="btn btn-warning">Edit Restaurant Details</a>
+                            <a href="{{url("/menu/".Auth::user()->details()->id)}}" class="btn btn-info">Customize MENU</a>
+                            <a href="{{url('/restaurant/edit')}}" class="btn btn-warning">Edit Restaurant Details</a>
                         </div>
                         <strong>ACTIVE ORDERS</strong>
                         <table class="table table-striped">

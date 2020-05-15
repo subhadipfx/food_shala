@@ -26,10 +26,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $id = Auth::user()->details()->id;
         if(Auth::user()->isRestaurant()){
-            return redirect('/restaurant');
+            return redirect('/restaurant/'.$id);
         }else{
-            return  redirect('/customer');
+            return  redirect('/customer/'.$id);
         }
     }
 }

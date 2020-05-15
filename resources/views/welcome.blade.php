@@ -85,14 +85,14 @@
                 </div>
 
                 <div class="links" >
-                    <a href="https://laravel.com/docs" style="color:white">Indian</a>
-                    <a href="https://laracasts.com">Chinese</a>
-                    <a href="https://laravel-news.com">Thai</a>
-                    <a href="https://blog.laravel.com">Italian</a>
-                    <a href="https://nova.laravel.com">American</a>
-                    <a href="https://forge.laravel.com">Continental</a>
-                    <a href="https://vapor.laravel.com">Japanese</a>
-                    <a href="https://github.com/laravel/laravel">Moroccan</a>
+                    <a href="{{url('/menu')}}">Indian</a>
+                    <a href="{{url('/menu')}}">Chinese</a>
+                    <a href="{{url('/menu')}}">Thai</a>
+                    <a href="{{url('/menu')}}">Italian</a>
+                    <a href="{{url('/menu')}}">American</a>
+                    <a href="{{url('/menu')}}">Continental</a>
+                    <a href="{{url('/menu')}}">Japanese</a>
+                    <a href="{{url('/menu')}}">Moroccan</a>
                 </div>
             </div>
         </div>

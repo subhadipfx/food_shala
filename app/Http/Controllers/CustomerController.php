@@ -23,7 +23,7 @@ class CustomerController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+
     }
 
     public function index()
@@ -73,7 +73,7 @@ class CustomerController extends Controller
 //            Customer::create([
 //                'name' => $request->name,
 //                'email' => strtolower($request->email),
-//                'ph' => $request->phone,
+//                'phone' => $request->phone,
 //                'address' => $request->address,
 //                'city' => $request->city,
 //                'vegetarian' => $request->vegetarian
@@ -89,13 +89,15 @@ class CustomerController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Customer $customer
-     * @return Response
+     * @param $id
+     * @return Factory|View
      */
-    public function show(Customer $customer)
+    public function show($id)
     {
-        return response('create');
-
+        if($id != Auth::user()->details()->id){
+            return view('unauthorized');
+        }
+        return view('customer.index')->with('user',Auth::user()->details());
     }
 
     /**

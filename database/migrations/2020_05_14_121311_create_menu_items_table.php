@@ -15,7 +15,7 @@ class CreateMenuItemsTable extends Migration
     {
         Schema::create('menu_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('restaurant_id')->constrained();
+            $table->foreignId('restaurant_id')->constrained()->onDelete('cascade');
             $table->string('category');
             $table->string('item_name');
             $table->boolean('vegetarian');
@@ -31,6 +31,6 @@ class CreateMenuItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('menu_items');
+        Schema::dropIfExists('restaurants');
     }
 }

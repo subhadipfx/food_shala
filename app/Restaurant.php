@@ -10,11 +10,16 @@ class Restaurant extends Model
 
     public function Orders()
     {
-        return $this->hasMany(Orders::class,'restaurant_id','id');
+        return $this->hasMany(Orders::class);
     }
 
-    public function MenuItem()
+    public function Items()
     {
         $this->hasMany(MenuItem::class);
+    }
+
+    public function User()
+    {
+        return $this->belongsTo(User::class);
     }
 }

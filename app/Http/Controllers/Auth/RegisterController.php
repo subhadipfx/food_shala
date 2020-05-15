@@ -72,7 +72,7 @@ class RegisterController extends Controller
             Customer::create([
                 'name' => $request->name,
                 'email' => strtolower($request->email),
-                'ph' => $request->phone,
+                'phone' => $request->phone,
                 'address' => $request->address,
                 'city' => $request->city,
                 'vegetarian' => $request->vegetarian
@@ -83,7 +83,7 @@ class RegisterController extends Controller
             Log::info($exception->getMessage());
         }
         \DB::commit();
-        return redirect('/customer');
+        return redirect('/home');
     }
 
     public function createRestaurant()
@@ -95,14 +95,14 @@ class RegisterController extends Controller
     {
 //        dd($request->all());
         $request->validate([
-//            'name' => ['required'],
-//            'email' => ['required', 'unique:users', 'max:255', 'email'],
-//            'phone' => ['required' ],
-//            'password' => ['required','min:8','max:16','confirmed'],
-//            'address' => ['required'],
-//            'city' => ['required'],
-//            'owner_name' => ['required'],
-//            'owner_ph' => ['required'],
+            'name' => ['required'],
+            'email' => ['required', 'unique:users', 'max:255', 'email'],
+            'phone' => ['required' ],
+            'password' => ['required','min:8','max:16','confirmed'],
+            'address' => ['required'],
+            'city' => ['required'],
+            'owner_name' => ['required'],
+            'owner_phone' => ['required'],
         ]);
         \DB::beginTransaction();
         try{
@@ -114,11 +114,11 @@ class RegisterController extends Controller
             Restaurant::create([
                 'name' => $request->name,
                 'email' => strtolower($request->email),
-                'ph' => $request->phone,
+                'phone' => $request->phone,
                 'address' => $request->address,
                 'city' => $request->city,
                 'owner_name' => $request->owner_name,
-                'owner_ph' => $request->owner_phone
+                'owner_phone' => $request->owner_phone
             ]);
             $this->guard()->login($user);
         }catch (Exception $exception){
@@ -126,6 +126,6 @@ class RegisterController extends Controller
             Log::info($exception->getMessage());
         }
         \DB::commit();
-        return redirect('/restaurant');
+        return redirect('/home');
     }
 }
