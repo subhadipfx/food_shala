@@ -12,38 +12,21 @@
 {{--                                {{ session('status') }}--}}
 {{--                            </div>--}}
 {{--                        @endif--}}
-                        <div class="text-center p-2">
-                            <a  href="{{url("/order")}}" class="btn btn-primary" >Orders</a>
+                        <div class="text-right p-2">
+                            <a  href="{{url("/order")}}" class="btn btn-primary" >ALL Orders</a>
                             <a href="{{url("/menu/".Auth::user()->details()->id)}}" class="btn btn-info">Customize MENU</a>
-                            <a href="{{url('/restaurant/edit')}}" class="btn btn-warning">Edit Restaurant Details</a>
                         </div>
                         <strong>ACTIVE ORDERS</strong>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th><u>Item Name</u></th>
-                                <th><u>Ordered By</u></th>
-                                <th><u>Price</u></th>
-                                <th><u>STATUS</u></th>
-                            </tr>
-                            </thead>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Ordered By</th>
-                                <th>Price</th>
-                                <th><button class="btn btn-info btn-sm">Preparing</button></th>
-                            </tr>
-                            <tr>
-                                <th>Item Name</th>
-                                <th>Ordered By</th>
-                                <th>Price</th>
-                                <th><button class="btn btn-primary btn-sm">Delivering</button></th>
-                            </tr>
-                        </table>
+                        <div id="active-orders">
+                            @include('partials._order_list')
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    @include('partials.scripts.order_status_change_restaurant')
 @endsection
 

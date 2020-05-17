@@ -34,16 +34,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
-                        </li>
                         @auth
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
+                            </li>
                             @if(Auth::user()->isRestaurant())
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('order.index') }}">{{ __('Orders') }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('menu.show',['id' => Auth::user()->details()->id]) }}">{{ __('Menu') }}</a>
+                                    <a class="nav-link" href="{{ route('menu.show',['id' => Auth::user()->details()->id]) }}">{{ __('Customize Menu') }}</a>
                                 </li>
                             @endif
                             @if(Auth::user()->isCustomer())
@@ -81,13 +81,17 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    @if(Auth::user()->isRestaurant())
+                                        <a class="dropdown-item" href="{{url('/restaurant/edit')}}" >{{__('Edit Details')}}</a>
+                                    @else
+                                        <a class="dropdown-item" href="{{url('/customer/edit')}}">{{__('Edit Profile')}}</a>
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 </div>

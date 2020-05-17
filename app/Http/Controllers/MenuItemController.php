@@ -82,18 +82,18 @@ class MenuItemController extends Controller
     {
         if(Auth::check() && Auth::user()->isRestaurant()){
             if($id == Auth::user()->details()->id){
-                $items = MenuItem::where('restaurant_id',$id)->get();
+                $items = MenuItem::where('restaurant_id',$id)->latest()->get();
                 return view('menu_item.show_restaurant',compact('items'));
             }else{
                 return view('unauthorized');
             }
         }else{
             if(Auth::check()){
-                $restaurants = Restaurant::where('city',Auth::user()->details()->city)->get();
+                $restaurants = Restaurant::where('city',Auth::user()->details()->city)->latest()->get();
             }else{
                 $restaurants = Restaurant::all();
             }
-            $items = MenuItem::where('restaurant_id',$id)->get();
+            $items = MenuItem::where('restaurant_id',$id)->latest()->get();
             $cart = Cache::get('cart-'.Auth::id(),[]);
             return view('menu_item.show_customer',compact('items','restaurants','cart'));
         }

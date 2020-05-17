@@ -26,13 +26,15 @@
         <div class="col-md-8 menu">
             @include('partials._menu')
         </div>
-        <div class="col-md-2 cart">
-            @if(session()->pull('message') == 'placed')
-                @include('partials._order_done')
-            @else
-                @include('partials._cart')
-            @endif
-        </div>
+        @auth
+            <div class="col-md-2 cart">
+                @if(session()->pull('message') == 'placed')
+                    @include('partials._order_done')
+                @else
+                    @include('partials._cart')
+                @endif
+            </div>
+        @endauth
     </div>
 @endsection
 @section('script')

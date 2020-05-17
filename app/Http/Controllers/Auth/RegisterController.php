@@ -46,11 +46,6 @@ class RegisterController extends Controller
         return Auth::guard();
     }
 
-    public function createCustomer()
-    {
-        return view('customer.create');
-    }
-
     public function storeCustomer(Request $request)
     {
         $request->validate([
@@ -86,14 +81,8 @@ class RegisterController extends Controller
         return redirect('/home');
     }
 
-    public function createRestaurant()
-    {
-        return view('restaurant.create');
-    }
-
     public function storeRestaurant(Request $request)
     {
-//        dd($request->all());
         $request->validate([
             'name' => ['required'],
             'email' => ['required', 'unique:users', 'max:255', 'email'],

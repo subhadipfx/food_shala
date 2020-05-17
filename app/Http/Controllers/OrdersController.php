@@ -19,9 +19,6 @@ use Throwable;
 
 class OrdersController extends Controller
 {
-    public function __construct()
-    {
-    }
 
     /**
      * Display a listing of the resource.
@@ -32,11 +29,10 @@ class OrdersController extends Controller
     {
         if(Auth::user()->isCustomer()){
             $orders = Orders::where('customer_id',Auth::user()->details()->id)->latest()->paginate(5);
-            return view('order.customer_index',compact('orders'));
         }else{
             $orders = Orders::where('restaurant_id',Auth::user()->details()->id)->latest()->paginate(5);
-            return view('order.restaurant_index',compact('orders'));
         }
+        return view('order.index',compact('orders'));
     }
 
     /**
@@ -116,32 +112,19 @@ class OrdersController extends Controller
     public function show($id)
     {
         if(Auth::user()->isCustomer()){
-            $orders = Orders::where('customer_id',Auth::user()->details()->id)
-                ->with('orderedFrom')->latest()->get();
-            $current_order = $orders->where('id',$id)->first();
-            $order_items = OrderedItem::where('order_id',$id)->with('items')->get();
-            return view('order.customer_show',compact('orders','current_order','order_items'));
+            $orders = Orders::where('customer_id',Auth::user()->details()->id)->latest()->get();
         }else{
-            $orders = Orders::where('restaurant_id',Auth::user()->details()->id)->latest()->paginate(5);
-            return view('order.show',compact('orders'));
+            $orders = Orders::where('restaurant_id',Auth::user()->details()->id)->latest()->get();
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Orders $orders
-     * @return Response
-     */
-    public function edit(Orders $orders)
-    {
-        //
+        $current_order = $orders->where('id',$id)->first();
+        $order_items = OrderedItem::where('order_id',$id)->with('items')->get();
+        return view('order.show',compact('orders','current_order','order_items','id'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param $id
      * @return ResponseFactory|Response
      */
@@ -177,21 +160,9 @@ class OrdersController extends Controller
                 if($order->status != $old_status){
                     $order->save();
                     return response('Updated',200);
-                }else{
-                    return response('',204);
                 }
             }
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Orders $orders
-     * @return Response
-     */
-    public function destroy(Orders $orders)
-    {
-        //
+        return response('',204);
     }
 }

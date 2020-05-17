@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Orders;
 use App\Restaurant;
 use App\User;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -15,20 +15,6 @@ use Illuminate\View\View;
 
 class RestaurantController extends Controller
 {
-
-    public function __construct()
-    {
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Factory|View
-     */
-    public function index()
-    {
-    }
-
 
     /**
      * Display the specified resource.
@@ -41,14 +27,14 @@ class RestaurantController extends Controller
         if($id != Auth::user()->details()->id){
             return view('unauthorized');
         }
-
-        return view('restaurant.index')->with('user',Auth::user()->details());
+        $orders = Orders::where('restaurant_id',Auth::user()->details()->id)
+            ->whereIn('status',['PLACED','PREPARING','WAY'])->with('orderedFrom')->latest()->get();
+        return view('restaurant.index',compact('orders'))->with('user',Auth::user()->details());
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Restaurant $restaurant
      * @return Factory|View
      */
     public function edit()
@@ -77,7 +63,7 @@ class RestaurantController extends Controller
         ]);
         if($request->has('password')){
             $user = User::find(Auth::id());
-            if($user->password != Hash::make($request->password)){
+            if(!Hash::check($request->password,$user->password)){
                 $validator->getMessageBag()->add('password','Please enter the correct password');
                 return back()
                     ->withErrors($validator)
@@ -99,11 +85,4 @@ class RestaurantController extends Controller
         $restaurant->save();
         return  redirect()->home();
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Restaurant $restaurant
-     * @return Response
-     */
 }

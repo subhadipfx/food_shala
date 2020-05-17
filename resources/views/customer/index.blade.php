@@ -13,13 +13,12 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <div class="text-center p-2">
-                            <a  href="{{url("/order")}}" class="btn btn-primary" >My Orders</a>
-                            <a href="{{url('/customer/edit')}}" class="btn btn-warning">Edit My Profile</a>
+                        <div class="text-right p-2">
+                            <a  href="{{url("/order")}}" class="btn btn-primary" >Past Orders</a>
                         </div>
                             <strong>ACTIVE ORDERS</strong>
                             <div id="active-orders">
-                                @include('partials._order_list_customer')
+                                @include('partials._order_list')
                             </div>
                     </div>
                 </div>
@@ -28,7 +27,7 @@
     </div>
 @endsection
 @section('script')
-    @include('partials.scripts.order_status_change')
+    @include('partials.scripts.order_status_change_customer')
 @endsection
 <style>
     .btn.disabled{

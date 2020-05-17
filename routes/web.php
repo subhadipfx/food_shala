@@ -14,20 +14,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//Welcome Page
 Route::get('/', function () {
     return view('welcome');
 });
 
+//Auth Routes
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
 //Registration Routes
 Route::prefix('/register')->group(function (){
-    Route::get('/customer','Auth\RegisterController@createCustomer');
+    Route::view('/customer','customer.create');
     Route::post('/customer','Auth\RegisterController@storeCustomer');
 
-    Route::get('/restaurant','Auth\RegisterController@createRestaurant');
+    Route::view('/restaurant','restaurant.create');
     Route::post('/restaurant','Auth\RegisterController@storeRestaurant');
 });
 
@@ -36,11 +38,12 @@ Route::middleware('restaurant')->group(function (){
     Route::prefix('/restaurant')->group(function (){
         Route::get('/edit','RestaurantController@edit');
     });
-    Route::resource('restaurant','RestaurantController',['except' => ['edit','destroy']]);
+    Route::resource('restaurant','RestaurantController',['except' => ['edit','destroy','index']]);
 });
 
 //Routes Only For Customers
 Route::middleware('customer')->group(function (){
+    //Routes related to cart
     Route::prefix('/order')->group(function (){
         Route::post('/','OrdersController@store');
         Route::get('/cart',function (){
@@ -48,13 +51,15 @@ Route::middleware('customer')->group(function (){
         });
         Route::get('/cart/add/{item}','OrdersController@create');
     });
+
+    //Routes related to customer
     Route::prefix('/customer')->group(function(){
         Route::get('/edit','CustomerController@edit');
     });
-    Route::resource('customer','CustomerController',['except' => ['edit']]);
+    Route::resource('customer','CustomerController',['only' => ['show','update']]);
 });
 
-//Routes for Both
+//Routes for ALL Customer,Restaurant,Guest(selective)
 
 //Menu Routes
 Route::prefix('/menu')->group(function (){
@@ -64,7 +69,9 @@ Route::prefix('/menu')->group(function (){
 Route::resource('menu','MenuItemController',['except' => ['index','show', 'create']])->middleware('restaurant');
 
 //Order Routes
-Route::resource('order','OrdersController',['except' => ['create','store']])->middleware('auth');
+Route::resource('order','OrdersController',['except' => ['create','store','edit','destroy']])->middleware('auth');
+
+
 
 //Fallback Route
 Route::fallback(function () {

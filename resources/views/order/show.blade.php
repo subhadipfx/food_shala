@@ -1,54 +1,30 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Order Details</div>
-
-                    <div class="card-body">
-                        <div class="text-uppercase d-flex flex-column">
-                            <span>Customer Name: Test</span>
-                            <span>Customer Email:</span>
-                            <span>Customer Phone:</span>
-                            <span>Customer Address:</span>
-                            <span>Order Date:</span>
-                            <span>Order Time:</span>
-                            <span>Order Status:</span>
-                        </div>
-                        <div>Items Ordered</div>
-                        <table class="table table-striped">
-                            <thead>
-                            <tr>
-                                <th><u>Name</u></th>
-                                <th><u>Price</u></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Name</td>
-                                <td>Price</td>
-                            </tr>
-                            <tr>
-                                <td>Name</td>
-                                <td>Price</td>
-                            </tr>
-                            <tr>
-                                <td>Total</td>
-                                <td>0.0</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+    <div class="d-flex justify-content-around">
+        <div class="col-md-2">
+            <table class="table table-striped">
+                <tbody>
+                @foreach($orders as $order)
+                    <tr class="{{$order->id == $id ? "active" : ""}}">
+                        <td class="customer-list"><a href="/order/{{$order->id}}">{{ Auth::user()->isRestaurant() ? $order->orderedBy()->first()->name : $order->orderedFrom()->first()->name }}</a></td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-10">
+            @include('partials._item_list')
         </div>
     </div>
 @endsection
-@section('script')
-    <script>
-
-    </script>
-@endsection
 <style>
+    .active td{
+        background-color: skyblue;
+    }
+    .active td a{
+        color: black;
+    }
+    td a{
+        color: black;
+    }
 </style>

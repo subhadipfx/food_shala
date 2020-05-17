@@ -47,7 +47,7 @@
                                 <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Restaurant Phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$restaurant->ph }}" required autocomplete="phone">
+                                    <input id="phone" type="text" class="form-control @error('phone') is-invalid @enderror" name="phone" value="{{$restaurant->phone }}" required autocomplete="phone">
 
                                     @error('phone')
                                     <span class="invalid-feedback" role="alert">
@@ -75,7 +75,7 @@
                                 <label for="owner_phone" class="col-md-4 col-form-label text-md-right">{{ __('Owner Phone') }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="owner_phone" type="text" class="form-control @error('owner_phone') is-invalid @enderror" name="owner_phone" value="{{ $restaurant->owner_ph }}" required autocomplete="owner_phone" autofocus>
+                                    <input id="owner_phone" type="text" class="form-control @error('owner_phone') is-invalid @enderror" name="owner_phone" value="{{ $restaurant->owner_phone }}" required autocomplete="owner_phone" autofocus>
 
                                     @error('name')
                                     <span class="invalid-feedback" role="alert">

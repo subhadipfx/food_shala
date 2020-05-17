@@ -7,22 +7,21 @@
                     <div class="card-header">Customize Menu</div>
 
                     <div class="card-body">
-                        @if (session('status') && session('status') == 'success')
+                        @if (session('status') && session()->pull('status') == 'success')
                             <div class="alert alert-success" role="alert">
-                                {{ session('status-msg') }}
+                                {{ session()->pull('status-msg') }}
                             </div>
                         @endif
-                        @if (session('status') && session('status') == 'error')
+                        @if (session('status') && session()->pull('status') == 'error')
                             <div class="alert alert-danger" role="alert">
-                                {{ session('status-msg') }}
+                                {{ session()->pull('status-msg') }}
                             </div>
                         @endif
-                        @if (session('status') && session('status') == 'update')
+                        @if (session('status') && session()->pull('status') == 'update')
                             <div class="alert alert-warning" role="alert">
-                                {{ session('status-msg') }}
+                                {{ session()->pull('status-msg') }}
                             </div>
                         @endif
-                        @php(session()->forget(['status','status-msg']))
                         <div class="text-right">
                             <a class="btn btn-info"  data-toggle="modal" data-target="#modal-form">Add Item</a>
                         </div>
@@ -190,16 +189,19 @@
             });
             $('.delete').each(function () {
                 $(this).click(function () {
-                    const id = $(this).attr('data-content');
-                    axios.delete('/menu/'+id)
-                        .then(function (response) {
-                            if(response.data === 'deleted'){
-                                location.reload();
-                            }
-                        })
-                        .catch(function (error) {
-                            console.log(error)
-                        })
+                    let choice = confirm('Are tou sure? You want to delete this item');
+                    if(choice){
+                        const id = $(this).attr('data-content');
+                        axios.delete('/menu/'+id)
+                            .then(function (response) {
+                                if(response.data === 'deleted'){
+                                    location.reload();
+                                }
+                            })
+                            .catch(function (error) {
+                                console.log(error)
+                            })
+                    }
                 })
             });
 
