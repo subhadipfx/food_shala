@@ -7,22 +7,11 @@
                     <div class="card-header">Customize Menu</div>
 
                     <div class="card-body">
-{{--                        @if (session('status') && session('status') == 'success')--}}
-{{--                            <div class="alert alert-success" role="alert">--}}
-{{--                                {{ session('status-msg') }}--}}
-{{--                            </div>--}}
-{{--                        @endif--}}
-{{--                        @if (session('status') && session('status') == 'error')--}}
-{{--                            <div class="alert alert-danger" role="alert">--}}
-{{--                                {{ session('status-msg') }}--}}
-{{--                            </div>--}}
-{{--                        @endif--}}
                         @if (session('status'))
-                            <div class="alert alert-{{session('status','info')}}" role="alert">
-                                {{ session('status-msg') }}
+                            <div class="alert alert-{{session()->pull('status','info')}}" role="alert">
+                                {{ session()->pull('status-msg') }}
                             </div>
                         @endif
-                        @php(session()->forget(['status','status-msg']))
                         <div class="text-uppercase"><b>List Restaurants</b></div>
                         <br>
                         <table class="table table-striped">
@@ -33,9 +22,11 @@
                                 </tr>
                             @endif
                             @foreach($restaurants as $restaurant)
-                                <tr>
-                                    <td class="text-center"><a href="/menu/{{$restaurant->id}}">{{$restaurant->name}}</a></td>
-                                </tr>
+                                @if($restaurant->hasItems())
+                                    <tr>
+                                        <td class="text-center"><a href="/menu/{{$restaurant->id}}">{{$restaurant->name}}</a></td>
+                                    </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>

@@ -10,6 +10,6 @@ class MenuItem extends Model
 
     public function restaurant()
     {
-        return $this->hasOne(Restaurant::class);
+        return $this->hasOne(Restaurant::class,'id','restaurant_id');
     }
 }

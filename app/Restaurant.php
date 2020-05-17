@@ -15,7 +15,12 @@ class Restaurant extends Model
 
     public function Items()
     {
-        $this->hasMany(MenuItem::class);
+        $this->hasMany(MenuItem::class,'restaurant_id','id')->get();
+    }
+
+    public function hasItems(){
+
+        return MenuItem::where('restaurant_id',$this->id)->count();
     }
 
     public function User()

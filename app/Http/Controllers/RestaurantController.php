@@ -61,6 +61,7 @@ class RestaurantController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
+     * @param $id
      * @return string
      */
     public function update(Request $request,$id)
@@ -88,7 +89,7 @@ class RestaurantController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
-        $restaurant = Restaurant::find($id);
+        $restaurant = Auth::user()->details();
         $restaurant->name = $request->name;
         $restaurant->phone = $request->phone;
         $restaurant->address = $request->address;
@@ -96,7 +97,7 @@ class RestaurantController extends Controller
         $restaurant->owner_name = $request->owner_name;
         $restaurant->owner_phone = $request->owner_phone;
         $restaurant->save();
-        return  route('home');
+        return  redirect()->home();
     }
 
     /**

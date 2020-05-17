@@ -8,13 +8,13 @@ class OrderedItem extends Model
 {
     protected $guarded = [];
 
-    public function Order()
+    public function order()
     {
         return $this->belongsTo(Orders::class);
     }
 
-    public function Item()
+    public function items()
     {
-        return $this->belongsTo(MenuItem::class);
+        return $this->belongsTo(MenuItem::class,'menu_item_id','id');
     }
 }

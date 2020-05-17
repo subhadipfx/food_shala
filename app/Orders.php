@@ -13,13 +13,13 @@ class Orders extends Model
         $this->hasMany(OrderedItem::class);
     }
 
-    public function OrderedFrom()
+    public function orderedFrom()
     {
-        return $this->belongsTo(Restaurant::class);
+        return $this->belongsTo(Restaurant::class,'restaurant_id','id');
     }
 
-    public function OrderedBy()
+    public function orderedBy()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class,'customer_id','id');
     }
 }

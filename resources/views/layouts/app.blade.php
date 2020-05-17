@@ -37,27 +37,29 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                         </li>
-                        @if(Auth::check() && Auth::user()->isRestaurant())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('order.index') }}">{{ __('Orders') }}</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('menu.show',['id' => Auth::user()->details()->id]) }}">{{ __('Menu') }}</a>
-                            </li>
-                        @endif
-                        @if(Auth::check() && Auth::user()->isCustomer())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('order.index') }}">{{ __('Orders') }}</a>
-                            </li>
+                        @auth
+                            @if(Auth::user()->isRestaurant())
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('order.index') }}">{{ __('Orders') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('menu.show',['id' => Auth::user()->details()->id]) }}">{{ __('Menu') }}</a>
+                                </li>
+                            @endif
+                            @if(Auth::user()->isCustomer())
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('order.index') }}">{{ __('Orders') }}</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ url('/menu') }}">{{ __('Menu') }}</a>
+                                </li>
+                            @endif
+                        @endauth
+                        @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ url('/menu') }}">{{ __('Menu') }}</a>
                             </li>
-                        @endif
-                        @if(!Auth::check())
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/menu') }}">{{ __('Menu') }}</a>
-                            </li>
-                        @endif
+                        @endguest
                     </ul>
 
                     <!-- Right Side Of Navbar -->

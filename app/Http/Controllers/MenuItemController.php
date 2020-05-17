@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -93,10 +94,10 @@ class MenuItemController extends Controller
                 $restaurants = Restaurant::all();
             }
             $items = MenuItem::where('restaurant_id',$id)->get();
-            return view('menu_item.show_customer',compact('items','restaurants'));
+            $cart = Cache::get('cart-'.Auth::id(),[]);
+            return view('menu_item.show_customer',compact('items','restaurants','cart'));
         }
     }
-
     /**
      * Show the form for editing the specified resource.
      *
